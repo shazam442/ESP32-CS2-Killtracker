@@ -14,6 +14,8 @@
     Please note that this public channel can be accessed by anyone and it is possible that more people will write their values.
  */
 
+// KilltrackerV1.ino
+
 #include "SevSeg.h"
 #include "KilltrackerWebManager.h"
 
@@ -44,17 +46,16 @@ void setup() {
   Serial.println();
   Serial.println("******************************************************");
 
-  KilltrackerWebManager kwm;
-  kwm.connectToWifi();
+  KilltrackerWebManager::connectToWifi();
 
   startSevenSegmentDisplay();
-  xTaskCreate(kwm.fetchKillcountTask, "FetchKillcount", 2048, NULL, 1, NULL);
+  xTaskCreate(KilltrackerWebManager::fetchKillcountTask, "FetchKillcount", 2048, NULL, 1, NULL);
   xTaskCreate(refreshDisplayTask, "RefreshDisplay", 2048, NULL, 1, NULL);
 }
 
 void refreshDisplayTask(void *parameter) {
   while (true) {
-    sevseg.setNumber(kwm.getKills());
+    sevseg.setNumber(KilltrackerWebManager::getKills());
     sevseg.refreshDisplay();
     vTaskDelay(1 / portTICK_PERIOD_MS); // Refresh every 1 ms
   }
