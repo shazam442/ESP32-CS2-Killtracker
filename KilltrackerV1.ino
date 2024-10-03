@@ -49,7 +49,7 @@ void setup() {
   KilltrackerWebManager::connectToWifi();
 
   startSevenSegmentDisplay();
-  xTaskCreate(KilltrackerWebManager::fetchKillcountTask, "FetchKillcount", 2048, NULL, 1, NULL);
+  xTaskCreate(KilltrackerWebManager::updateKillcountTask, "FetchKillcount", 2048, NULL, 1, NULL);
   xTaskCreate(refreshDisplayTask, "RefreshDisplay", 2048, NULL, 1, NULL);
 }
 
